@@ -103,11 +103,16 @@ class TrayManager {
   /// manifest file, without the path or file extension. For example, if the
   /// icon is specified as `org.example.app` in the Flatpak manifest file, then
   /// the icon should be passed as `org.example.app`.
+  ///
+  /// Set [preferIconTheme] to true to follow system icon theme on Linux,
+  /// should also pass in the [iconName].
   Future<void> setIcon(
     String iconPath, {
     bool isTemplate = false, // macOS only
     TrayIconPosition iconPosition = TrayIconPosition.left, // macOS only
     int iconSize = 18, // macOS only
+    bool preferIconTheme = false,  // Linux only
+    String iconName = "",  // Linux only
   }) async {
     final Map<String, dynamic> arguments = {
       'id': shortid.generate(),
@@ -119,6 +124,8 @@ class TrayManager {
       'isTemplate': isTemplate,
       'iconPosition': iconPosition.name,
       'iconSize': iconSize,
+      'preferIconTheme': preferIconTheme,
+      'iconName': iconName,
     };
 
     switch (defaultTargetPlatform) {
